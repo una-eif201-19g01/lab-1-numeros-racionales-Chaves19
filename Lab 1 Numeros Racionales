@@ -1,0 +1,160 @@
+#include<iostream>
+#include<sstream>
+using namespace std;
+
+//Alumno: Alonso Jose Chaves Quiros / Cedula 1-1734-0619
+//Universidad Nacional
+//EIF 201 Progra 1
+//Profesor: Maikol Guzman
+//Fecha: 05/08/2019
+// Laboratorio 1
+
+class Racional{
+	
+private:
+	
+	int numerador;
+	int denominador;
+	
+public:
+
+	Racional(){
+		setNumerador(numerador=0);
+		setDenominador(denominador=1);
+		
+	}
+	
+	Racional(int num,int den){
+		numerador=num;
+		denominador=den;
+	}
+	
+	int calcMCD(int num,int den){
+		int res=0;
+		if(den==0)
+			res=num;
+		else{
+			res=calcMCD(den, num % den);
+		}
+	return res;
+	}
+	
+	void simp(Racional &fraccion){
+		if(fraccion.numerador != 0){
+		int numMCD= calcMCD(abs(fraccion.getNumerador()), fraccion.getDenominador());
+		int numerador= fraccion.getNumerador() / numMCD;
+		int denominador= fraccion.getDenominador() / numMCD;
+		fraccion.setNumerador(numerador);
+		fraccion.setDenominador(denominador);
+		}
+	}
+	
+	string toString(){
+		string res;
+		res = to_string(getNumerador()) + "/" + to_string(getDenominador());
+		return res;
+	}
+	
+	//sets y gets de la clase
+	void setNumerador(int num){
+		numerador=num;
+	}
+	
+	int getNumerador(){
+		return numerador;
+	}
+	
+	void setDenominador(int den){
+		denominador=den;;
+	}
+	
+	int getDenominador(){
+		return denominador;
+	}
+	
+	Racional sum(Racional frac){
+		Racional res;
+		res.setNumerador(getNumerador() * frac.getDenominador() + getDenominador() * frac.getNumerador());
+		res.setDenominador(getDenominador() * frac.getDenominador());
+		simp(res);
+			return res;
+		
+	}
+	Racional res(Racional frac){
+		Racional res;
+		res.setNumerador(getNumerador() * frac.getDenominador() - getDenominador() * frac.getNumerador());
+		res.setDenominador(getDenominador() * frac.getDenominador());
+		simp(res);
+			return res;
+	}
+	Racional mult(Racional frac){
+		Racional res;
+		res.setNumerador(getNumerador() * frac.getNumerador());
+		res.setDenominador(getDenominador() * frac.getDenominador());
+		simp(res);
+		return res;
+	}
+	Racional div(Racional frac){
+		Racional res;
+		res.setNumerador(getNumerador() * frac.getDenominador());
+		res.setDenominador(getDenominador() * frac.getNumerador());
+		simp(res);
+		return res;
+	}
+	
+	Racional elev(){
+		Racional res;
+		res.setNumerador(getNumerador() * getNumerador());
+		res.setDenominador(getDenominador() * getDenominador());
+		return res;
+	}
+	bool equivalente(Racional frac){
+		Racional res;
+		res.setNumerador(getNumerador() * frac.getDenominador());
+		res.setDenominador(getNumerador() * frac.getDenominador());
+		if(res.getNumerador() == res.getDenominador())
+			return true;
+		else{
+			return false;
+		}
+	
+	}
+	~Racional(){};
+	
+};
+	
+	
+int main (int argc, char *argv[]) {
+	int num, den;
+	Racional frac1;
+	Racional frac2;
+	Racional aux;
+	
+	cout<<"inserte el valor del numerador:"<<endl;
+	cin>>num;
+	frac1.setNumerador(num);
+	cout<<"inserte el valor del denominador:"<<endl;
+	cin>> den;
+	frac1.setDenominador(den);
+	cout<<frac1.toString();
+	cout<<"inserte el valor del numerador:"<<endl;
+	cin>>num;
+	frac2.setNumerador(num);
+	cout<<"inserte el valor del denominador:"<<endl;
+	cin>> den;
+	frac2.setDenominador(den);
+	cout<<frac2.toString();
+	aux = frac1.sum(frac2);
+	cout<<"Suma de: "<<frac1.toString()<< " + "<<frac2.toString()<<" = "<<aux.toString()<<endl;
+	aux = frac1.res(frac2);
+	cout<<"Resta de: "<<frac1.toString()<< " - "<<frac2.toString()<<" = "<<aux.toString()<<endl;
+	aux = frac1.mult(frac2);	cout<<"Multiplicacion de: "<<frac1.toString()<< " * "<<frac2.toString()<<" = "<<aux.toString()<<endl;
+	aux = frac1.div(frac2);	
+	cout<<"Division de: "<<frac1.toString()<< " / "<<frac2.toString()<<" = "<<aux.toString()<<endl;
+	aux = frac1.elev();	
+	cout<<"Elevacion de: "<<frac1.toString()<< " a la 2 = "<<aux.toString()<<endl;
+	cout<<"Las fracciones son equivalentes? "<<frac1.equivalente(frac2)<<endl;
+
+	return 0;
+}
+
